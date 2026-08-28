@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="70.3 La Quinta">
+<meta name="theme-color" content="#0b0b0b">
+<title>Ironman 70.3 La Quinta Training</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+<style>
+:root{
+  --surface-0:#f4f3ee; --surface-1:#ffffff; --surface-2:#ffffff;
+  --text-primary:#1a1a18; --text-secondary:#5f5e5a; --text-muted:#888780;
+  --border:#e3e1d9; --border-strong:#c9c7bc;
+  --bg-accent:#e6f1fb; --text-accent:#0c447c;
+  --bg-danger:#fcebeb; --text-danger:#791f1f;
+  --bg-success:#eaf3de; --text-success:#27500a; --fill-success:#639922;
+  --fill-accent:#378add;
+  --c-blue-50:#e6f1fb; --c-blue-800:#0c447c;
+  --c-green-50:#eaf3de; --c-green-800:#27500a;
+  --c-amber-50:#faeeda; --c-amber-800:#633806;
+  --c-purple-50:#eeedfe; --c-purple-800:#3c3489;
+  --c-coral-50:#faece7; --c-coral-800:#712b13;
+  --c-gray-50:#f1efe8; --c-gray-800:#444441;
+  --radius:8px;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --surface-0:#151513; --surface-1:#1f1f1c; --surface-2:#1f1f1c;
+    --text-primary:#f1efe8; --text-secondary:#b4b2a9; --text-muted:#888780;
+    --border:#333330; --border-strong:#444441;
+    --bg-accent:#0c447c; --text-accent:#85b7eb;
+    --bg-danger:#501313; --text-danger:#f7c1c1;
+    --bg-success:#173404; --text-success:#97c459; --fill-success:#639922;
+    --fill-accent:#378add;
+    --c-blue-50:#0c447c; --c-blue-800:#85b7eb;
+    --c-green-50:#173404; --c-green-800:#97c459;
+    --c-amber-50:#412402; --c-amber-800:#fac775;
+    --c-purple-50:#26215c; --c-purple-800:#cecbf6;
+    --c-coral-50:#4a1b0c; --c-coral-800:#f5c4b3;
+    --c-gray-50:#2c2c2a; --c-gray-800:#d3d1c7;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface-0);color:var(--text-primary);-webkit-font-smoothing:antialiased}
+.app-wrap{max-width:720px;margin:0 auto;padding:0 0 3rem}
+input,select,button{font-family:inherit;font-size:14px;color:var(--text-primary)}
+select{background:var(--surface-1);border:0.5px solid var(--border-strong);border-radius:var(--radius);padding:6px 10px}
+button{background:var(--surface-1);border:0.5px solid var(--border-strong);border-radius:var(--radius);padding:6px 10px;cursor:pointer}
+button:disabled{opacity:.4;cursor:default}
+.nav-item:hover{background:var(--surface-1)}
+h2,h3{font-weight:500;margin:0}
+p{margin:0}
+</style>
+</head>
+<body>
+<div class="app-wrap">
+<h2 class="sr-only">Detailed Ironman 70.3 La Quinta training app from week 10 through race day, with exact workouts, drills, heart rate zones, phase-by-phase schedule browsing, and full daily nutrition with measurements</h2>
+<div class="app" style="display:flex;gap:0;min-height:560px">
+<div class="sidebar" style="width:190px;flex-shrink:0;border-right:0.5px solid var(--border);padding:1rem 0">
+<div style="padding:0 1rem 1rem;border-bottom:0.5px solid var(--border);margin-bottom:.5rem">
+<p style="font-weight:500;font-size:15px">70.3 La Quinta</p>
+<p style="font-size:11px;color:var(--text-secondary);margin-top:2px">Race day: Dec 6, 2026</p>
+<p style="font-size:11px;font-weight:500;background:var(--bg-danger);color:var(--text-danger);padding:3px 8px;border-radius:100px;margin-top:6px;display:inline-block">Goal: sub-5:00</p>
+<p id="countdown" style="font-size:11px;font-weight:500;background:var(--bg-accent);color:var(--text-accent);padding:3px 8px;border-radius:var(--radius);margin-top:6px;display:inline-block"></p>
+</div>
+<div class="nav-item" data-view="today" style="display:flex;align-items:center;gap:8px;padding:7px 1rem;cursor:pointer;font-size:13px"><i class="ti ti-sun" style="font-size:16px" aria-hidden="true"></i>Today</div>
+<div class="nav-item" data-view="goal" style="display:flex;align-items:center;gap:8px;padding:7px 1rem;cursor:pointer;font-size:13px"><i class="ti ti-target-arrow" style="font-size:16px" aria-hidden="true"></i>Goal</div>
+<div class="nav-item" data-view="schedule" style="display:flex;align-items:center;gap:8px;padding:7px 1rem;cursor:pointer;font-size:13px"><i class="ti ti-calendar" style="font-size:16px" aria-hidden="true"></i>Schedule</div>
+<div class="nav-item" data-view="zones" style="display:flex;align-items:center;gap:8px;padding:7px 1rem;cursor:pointer;font-size:13px"><i class="ti ti-heart" style="font-size:16px" aria-hidden="true"></i>HR zones</div>
+<div class="nav-item" data-view="raceday" style="display:flex;align-items:center;gap:8px;padding:7px 1rem;cursor:pointer;font-size:13px"><i class="ti ti-flag" style="font-size:16px" aria-hidden="true"></i>Race day</div>
+<div class="nav-item" data-view="progress" style="display:flex;align-items:center;gap:8px;padding:7px 1rem;cursor:pointer;font-size:13px"><i class="ti ti-chart-bar" style="font-size:16px" aria-hidden="true"></i>Progress</div>
+</div>
+<div class="main" style="flex:1;min-width:0;padding:0 1.25rem">
+<div id="body" style="padding:1rem 0"></div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.10/dayjs.min.js"></script>
+<script>
+const WEEKS = [{"week": 10, "phase": "PHASE 2: BUILD", "date": "Aug 24, 2026", "note": "Brick workouts are the heart of this phase. Swim intervals should now be noticeably closer to your 1:44/100m goal pace.", "volume": "Swim 2.5-3.5h (3x/wk) | Bike 5-7h | Run 2.5-3.5h | Lifting 2x/wk", "days": [{"day": "Mon", "session": "Swim + Lift A", "type": "Swim + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "8x100m @ threshold, HR Z3-Z4 (151-177), 20s rest; paddles on reps 5-8", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m fingertip drag", "4x50m fist drill"]}, "lift": "A", "nut": ["moderate", "thighs"]}, {"day": "Tue", "session": "Tempo bike", "type": "Bike", "bike": "Warm up 15 min Z1 110-137, 2x12 min Z3-Z4 (~180-190W, ~22-23mph feel), 8 min Z1 110-137 recovery between, cool down 10 min Z1 110-137", "nut": ["moderate", "beef"]}, {"day": "Wed", "session": "Run", "type": "Run", "run": "5-6 miles easy Z1-Z2 with 4x30s strides at goal race pace (~8:30/mi), full recovery walk between strides", "nut": ["moderate", "turkey"]}, {"day": "Thu", "session": "Swim race-pace + easy spin", "type": "Swim + Bike", "swim": {"warmup": "400m easy Z1 110-137", "main": "6x200m @ goal race pace (~1:44/100m), HR Z3-Z4 (151-177), 20s rest between", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m catch-up drill between main set reps 3-4"]}, "bike": "40 min easy spin Z1 110-137 immediately after - transition practice", "nut": ["moderate", "tuna"]}, {"day": "Fri", "session": "Swim technique + Lift B+C combo", "type": "Swim + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "20-30 min technique only - no interval clock, focus on feel", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m catch-up drill", "4x50m fingertip drag", "4x25m sculling"]}, "lift": "BC", "nut": ["moderate", "chicken"]}, {"day": "Sat", "session": "Long brick", "type": "Brick", "bike": "2-3h Z2-Z3, practicing full race nutrition on the bike", "run": "Immediately off the bike: 20-25 min run Z2, no break in transition", "nut": ["long", "salmon"]}, {"day": "Sun", "session": "Long run", "type": "Run", "run": "60-70 min easy Z1-Z2 throughout", "nut": ["moderate", "thighs"]}]}, {"week": 11, "phase": "PHASE 2: BUILD", "date": "Aug 31, 2026", "note": "RECOVERY WEEK - cut volumes 30%. No brick this weekend. Easy swim and easy bike only, third swim stays but stays short.", "volume": "Swim 2.5-3.5h (3x/wk) | Bike 5-7h | Run 2.5-3.5h | Lifting 2x/wk", "days": [{"day": "Mon", "session": "Swim + Lift A", "type": "Swim + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "8x100m @ threshold, HR Z3-Z4 (151-177), 20s rest; paddles on reps 5-8", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m fingertip drag", "4x50m fist drill"]}, "lift": "A", "nut": ["rest", null]}, {"day": "Tue", "session": "Tempo bike", "type": "Bike", "bike": "Warm up 15 min Z1 110-137, 2x12 min Z3-Z4 (~180-190W, ~22-23mph feel), 8 min Z1 110-137 recovery between, cool down 10 min Z1 110-137", "nut": ["rest", null]}, {"day": "Wed", "session": "Run", "type": "Run", "run": "5-6 miles easy Z1-Z2 with 4x30s strides at goal race pace (~8:30/mi), full recovery walk between strides", "nut": ["rest", null]}, {"day": "Thu", "session": "Swim race-pace + easy spin", "type": "Swim + Bike", "swim": {"warmup": "400m easy Z1 110-137", "main": "6x200m @ goal race pace (~1:44/100m), HR Z3-Z4 (151-177), 20s rest between", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m catch-up drill between main set reps 3-4"]}, "bike": "40 min easy spin Z1 110-137 immediately after - transition practice", "nut": ["rest", null]}, {"day": "Fri", "session": "Swim technique + Lift B+C combo", "type": "Swim + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "20-30 min technique only - no interval clock, focus on feel", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m catch-up drill", "4x50m fingertip drag", "4x25m sculling"]}, "lift": "BC", "nut": ["rest", null]}, {"day": "Sat", "session": "Long brick", "type": "Brick", "bike": "2-3h Z2-Z3, practicing full race nutrition on the bike", "run": "Immediately off the bike: 20-25 min run Z2, no break in transition", "nut": ["rest", null]}, {"day": "Sun", "session": "Long run", "type": "Run", "run": "60-70 min easy Z1-Z2 throughout", "nut": ["rest", null]}]}, {"week": 12, "phase": "PHASE 2: BUILD", "date": "Sep 07, 2026", "note": "First/second open water swim of the plan (buddy or supervised area only). Brick workouts are the heart of this phase.", "volume": "Swim 2.5-3.5h (3x/wk) | Bike 5-7h | Run 2.5-3.5h | Lifting 2x/wk", "days": [{"day": "Mon", "session": "Swim + Lift A", "type": "Swim + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "8x100m @ threshold, HR Z3-Z4 (151-177), 20s rest; paddles on reps 5-8", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m fingertip drag", "4x50m fist drill"]}, "lift": "A", "nut": ["moderate", "thighs"]}, {"day": "Tue", "session": "Tempo bike", "type": "Bike", "bike": "Warm up 15 min Z1 110-137, 2x12 min Z3-Z4 (~180-190W, ~22-23mph feel), 8 min Z1 110-137 recovery between, cool down 10 min Z1 110-137", "nut": ["moderate", "beef"]}, {"day": "Wed", "session": "Run", "type": "Run", "run": "5-6 miles easy Z1-Z2 with 4x30s strides at goal race pace (~8:30/mi), full recovery walk between strides", "nut": ["moderate", "turkey"]}, {"day": "Thu", "session": "Swim (open water) + easy spin", "type": "Swim + Bike", "swim": {"warmup": "400m easy Z1 110-137", "main": "Open water: 1,500m continuous at race effort, sighting every 8-10 strokes, HR Z3 151-163", "cooldown": "200m easy Z1 110-137", "drills": ["Sighting drill: 4x50m with sighting every 3rd stroke"]}, "bike": "40 min easy spin Z1 110-137 immediately after, legs-only transition practice", "nut": ["long", "tuna"]}, {"day": "Fri", "session": "Swim technique + Lift B+C combo", "type": "Swim + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "20-30 min technique only - no interval clock, focus on feel", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m catch-up drill", "4x50m fingertip drag", "4x25m sculling"]}, "lift": "BC", "nut": ["moderate", "chicken"]}, {"day": "Sat", "session": "Long brick", "type": "Brick", "bike": "2-3h Z2-Z3, practicing full race nutrition on the bike", "run": "Immediately off the bike: 20-25 min run Z2, no break in transition", "nut": ["long", "salmon"]}, {"day": "Sun", "session": "Long run", "type": "Run", "run": "60-70 min easy Z1-Z2 throughout", "nut": ["moderate", "thighs"]}]}, {"week": 13, "phase": "PHASE 2: BUILD", "date": "Sep 14, 2026", "note": "Brick workouts are the heart of this phase. Swim intervals should now be noticeably closer to your 1:44/100m goal pace.", "volume": "Swim 2.5-3.5h (3x/wk) | Bike 5-7h | Run 2.5-3.5h | Lifting 2x/wk", "days": [{"day": "Mon", "session": "Swim + Lift A", "type": "Swim + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "8x100m @ threshold, HR Z3-Z4 (151-177), 20s rest; paddles on reps 5-8", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m fingertip drag", "4x50m fist drill"]}, "lift": "A", "nut": ["moderate", "thighs"]}, {"day": "Tue", "session": "Tempo bike", "type": "Bike", "bike": "Warm up 15 min Z1 110-137, 2x12 min Z3-Z4 (~180-190W, ~22-23mph feel), 8 min Z1 110-137 recovery between, cool down 10 min Z1 110-137", "nut": ["moderate", "beef"]}, {"day": "Wed", "session": "Run", "type": "Run", "run": "5-6 miles easy Z1-Z2 with 4x30s strides at goal race pace (~8:30/mi), full recovery walk between strides", "nut": ["moderate", "turkey"]}, {"day": "Thu", "session": "Swim race-pace + easy spin", "type": "Swim + Bike", "swim": {"warmup": "400m easy Z1 110-137", "main": "6x200m @ goal race pace (~1:44/100m), HR Z3-Z4 (151-177), 20s rest between", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m catch-up drill between main set reps 3-4"]}, "bike": "40 min easy spin Z1 110-137 immediately after - transition practice", "nut": ["moderate", "tuna"]}, {"day": "Fri", "session": "Swim technique + Lift B+C combo", "type": "Swim + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "20-30 min technique only - no interval clock, focus on feel", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m catch-up drill", "4x50m fingertip drag", "4x25m sculling"]}, "lift": "BC", "nut": ["moderate", "chicken"]}, {"day": "Sat", "session": "Long brick", "type": "Brick", "bike": "2-3h Z2-Z3, practicing full race nutrition on the bike", "run": "Immediately off the bike: 20-25 min run Z2, no break in transition", "nut": ["long", "salmon"]}, {"day": "Sun", "session": "Long run", "type": "Run", "run": "60-70 min easy Z1-Z2 throughout", "nut": ["moderate", "thighs"]}]}, {"week": 14, "phase": "PHASE 2: BUILD", "date": "Sep 21, 2026", "note": "First/second open water swim of the plan (buddy or supervised area only). Brick workouts are the heart of this phase.", "volume": "Swim 2.5-3.5h (3x/wk) | Bike 5-7h | Run 2.5-3.5h | Lifting 2x/wk", "days": [{"day": "Mon", "session": "Swim + Lift A", "type": "Swim + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "8x100m @ threshold, HR Z3-Z4 (151-177), 20s rest; paddles on reps 5-8", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m fingertip drag", "4x50m fist drill"]}, "lift": "A", "nut": ["moderate", "thighs"]}, {"day": "Tue", "session": "Tempo bike", "type": "Bike", "bike": "Warm up 15 min Z1 110-137, 2x12 min Z3-Z4 (~180-190W, ~22-23mph feel), 8 min Z1 110-137 recovery between, cool down 10 min Z1 110-137", "nut": ["moderate", "beef"]}, {"day": "Wed", "session": "Run", "type": "Run", "run": "5-6 miles easy Z1-Z2 with 4x30s strides at goal race pace (~8:30/mi), full recovery walk between strides", "nut": ["moderate", "turkey"]}, {"day": "Thu", "session": "Swim (open water) + easy spin", "type": "Swim + Bike", "swim": {"warmup": "400m easy Z1 110-137", "main": "Open water: 1,500m continuous at race effort, sighting every 8-10 strokes, HR Z3 151-163", "cooldown": "200m easy Z1 110-137", "drills": ["Sighting drill: 4x50m with sighting every 3rd stroke"]}, "bike": "40 min easy spin Z1 110-137 immediately after, legs-only transition practice", "nut": ["long", "tuna"]}, {"day": "Fri", "session": "Swim technique + Lift B+C combo", "type": "Swim + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "20-30 min technique only - no interval clock, focus on feel", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m catch-up drill", "4x50m fingertip drag", "4x25m sculling"]}, "lift": "BC", "nut": ["moderate", "chicken"]}, {"day": "Sat", "session": "Long brick", "type": "Brick", "bike": "2-3h Z2-Z3, practicing full race nutrition on the bike", "run": "Immediately off the bike: 20-25 min run Z2, no break in transition", "nut": ["long", "salmon"]}, {"day": "Sun", "session": "Long run", "type": "Run", "run": "60-70 min easy Z1-Z2 throughout", "nut": ["moderate", "thighs"]}]}, {"week": 15, "phase": "PHASE 2: BUILD", "date": "Sep 28, 2026", "note": "Last build week. Longest brick before peak. After Saturday you should feel ready for peak phase.", "volume": "Swim 2.5-3.5h (3x/wk) | Bike 5-7h | Run 2.5-3.5h | Lifting 2x/wk", "days": [{"day": "Mon", "session": "Swim + Lift A", "type": "Swim + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "8x100m @ threshold, HR Z3-Z4 (151-177), 20s rest; paddles on reps 5-8", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m fingertip drag", "4x50m fist drill"]}, "lift": "A", "nut": ["moderate", "thighs"]}, {"day": "Tue", "session": "Tempo bike", "type": "Bike", "bike": "Warm up 15 min Z1 110-137, 2x12 min Z3-Z4 (~180-190W, ~22-23mph feel), 8 min Z1 110-137 recovery between, cool down 10 min Z1 110-137", "nut": ["moderate", "beef"]}, {"day": "Wed", "session": "Run", "type": "Run", "run": "5-6 miles easy Z1-Z2 with 4x30s strides at goal race pace (~8:30/mi), full recovery walk between strides", "nut": ["moderate", "turkey"]}, {"day": "Thu", "session": "Swim race-pace + easy spin", "type": "Swim + Bike", "swim": {"warmup": "400m easy Z1 110-137", "main": "6x200m @ goal race pace (~1:44/100m), HR Z3-Z4 (151-177), 20s rest between", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m catch-up drill between main set reps 3-4"]}, "bike": "40 min easy spin Z1 110-137 immediately after - transition practice", "nut": ["moderate", "tuna"]}, {"day": "Fri", "session": "Swim technique + Lift B+C combo", "type": "Swim + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "20-30 min technique only - no interval clock, focus on feel", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m catch-up drill", "4x50m fingertip drag", "4x25m sculling"]}, "lift": "BC", "nut": ["moderate", "chicken"]}, {"day": "Sat", "session": "Long brick", "type": "Brick", "bike": "2-3h Z2-Z3, practicing full race nutrition on the bike", "run": "Immediately off the bike: 20-25 min run Z2, no break in transition", "nut": ["long", "salmon"]}, {"day": "Sun", "session": "Long run", "type": "Run", "run": "60-70 min easy Z1-Z2 throughout", "nut": ["moderate", "thighs"]}]}, {"week": 16, "phase": "PHASE 3: PEAK", "date": "Oct 05, 2026", "note": "Peak phase begins. Saturday is a controlled assessment brick (not full race effort).", "volume": "Swim 3-3.5h (3x/wk) | Bike 6-8h | Run 3-4h | Lifting 1x/wk", "days": [{"day": "Mon", "session": "Swim", "type": "Swim", "swim": {"warmup": "400m easy Z1 110-137", "main": "2,000m race-distance efforts at goal pace (~1:44/100m), HR Z3 151-163", "cooldown": "200m easy Z1 110-137", "drills": ["Open water preferred - sighting every 6-8 strokes"]}, "nut": ["moderate", "chicken"]}, {"day": "Tue", "session": "Bike intervals", "type": "Bike", "bike": "Warm up 15 min Z1 110-137, 3x15 min at race effort Z3-Z4 (~22-23mph feel), 5 min Z1 110-137 recovery between", "nut": ["moderate", "beef"]}, {"day": "Wed", "session": "Swim speed + Run + Lift C", "type": "Swim + Run + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "20-30 min race-pace speed work: 6x100m @ goal pace with 15s rest, HR Z3-Z4 (151-177)", "cooldown": "200m easy Z1 110-137", "drills": ["2x50m fist drill warmup"]}, "run": "6-8 miles easy Z1-Z2", "lift": "C", "nut": ["moderate", "turkey"]}, {"day": "Thu", "session": "Swim + spin", "type": "Swim + Bike", "swim": {"warmup": "400m easy Z1 110-137", "main": "Race-distance swim (1.9km) at goal pace, HR Z3 151-163", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m catch-up drill in warmup"]}, "bike": "45 min easy spin Z1 110-137", "nut": ["moderate", "tuna"]}, {"day": "Fri", "session": "Rest", "type": "Rest", "nut": ["rest", null]}, {"day": "Sat", "session": "Progressive brick", "type": "Brick", "bike": "45-50 miles Z3 (85-90% effort, controlled) in race kit, full race nutrition", "run": "Immediately off the bike: 20 min easy Z2 at goal pace feel", "nut": ["long", "salmon"]}, {"day": "Sun", "session": "Long run", "type": "Run", "run": "60-75 min easy Z1-Z2 at goal pace feel", "nut": ["moderate", "chicken"]}]}, {"week": 17, "phase": "PHASE 3: PEAK", "date": "Oct 12, 2026", "note": "FIRST full race-simulation rehearsal - full effort, full race kit, full nutrition plan.", "volume": "Swim 3-3.5h (3x/wk) | Bike 6-8h | Run 3-4h | Lifting 1x/wk", "days": [{"day": "Mon", "session": "Swim", "type": "Swim", "swim": {"warmup": "400m easy Z1 110-137", "main": "2,000m race-distance efforts at goal pace (~1:44/100m), HR Z3 151-163", "cooldown": "200m easy Z1 110-137", "drills": ["Open water preferred - sighting every 6-8 strokes"]}, "nut": ["moderate", "chicken"]}, {"day": "Tue", "session": "Bike intervals", "type": "Bike", "bike": "Warm up 15 min Z1 110-137, 3x15 min at race effort Z3-Z4 (~22-23mph feel), 5 min Z1 110-137 recovery between", "nut": ["moderate", "beef"]}, {"day": "Wed", "session": "Swim speed + Run + Lift C", "type": "Swim + Run + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "20-30 min race-pace speed work: 6x100m @ goal pace with 15s rest, HR Z3-Z4 (151-177)", "cooldown": "200m easy Z1 110-137", "drills": ["2x50m fist drill warmup"]}, "run": "6-8 miles easy Z1-Z2", "lift": "C", "nut": ["moderate", "turkey"]}, {"day": "Thu", "session": "Swim + spin", "type": "Swim + Bike", "swim": {"warmup": "400m easy Z1 110-137", "main": "Race-distance swim (1.9km) at goal pace, HR Z3 151-163", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m catch-up drill in warmup"]}, "bike": "45 min easy spin Z1 110-137", "nut": ["moderate", "tuna"]}, {"day": "Fri", "session": "Rest", "type": "Rest", "nut": ["rest", null]}, {"day": "Sat", "session": "Race simulation brick #1", "type": "Brick", "bike": "50-55 miles at race effort Z3-Z4 (target ~23mph) in full race kit, exact race nutrition - log everything", "run": "Immediately off the bike: 25 min at goal pace (~8:30/mi), HR Z3 151-163", "nut": ["long", "salmon"]}, {"day": "Sun", "session": "Long run", "type": "Run", "run": "60-75 min easy Z1-Z2 at goal pace feel", "nut": ["moderate", "chicken"]}]}, {"week": 18, "phase": "PHASE 3: PEAK", "date": "Oct 19, 2026", "note": "RECOVERY WEEK - cut volumes 30%. One easy session each discipline. No max-effort brick.", "volume": "Swim 3-3.5h (3x/wk) | Bike 6-8h | Run 3-4h | Lifting 1x/wk", "days": [{"day": "Mon", "session": "Swim", "type": "Swim", "swim": {"warmup": "400m easy Z1 110-137", "main": "2,000m race-distance efforts at goal pace (~1:44/100m), HR Z3 151-163", "cooldown": "200m easy Z1 110-137", "drills": ["Open water preferred - sighting every 6-8 strokes"]}, "nut": ["rest", null]}, {"day": "Tue", "session": "Bike intervals", "type": "Bike", "bike": "Warm up 15 min Z1 110-137, 3x15 min at race effort Z3-Z4 (~22-23mph feel), 5 min Z1 110-137 recovery between", "nut": ["rest", null]}, {"day": "Wed", "session": "Swim speed + Run + Lift C", "type": "Swim + Run + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "20-30 min race-pace speed work: 6x100m @ goal pace with 15s rest, HR Z3-Z4 (151-177)", "cooldown": "200m easy Z1 110-137", "drills": ["2x50m fist drill warmup"]}, "run": "6-8 miles easy Z1-Z2", "lift": "C", "nut": ["rest", null]}, {"day": "Thu", "session": "Swim + spin", "type": "Swim + Bike", "swim": {"warmup": "400m easy Z1 110-137", "main": "Race-distance swim (1.9km) at goal pace, HR Z3 151-163", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m catch-up drill in warmup"]}, "bike": "45 min easy spin Z1 110-137", "nut": ["rest", null]}, {"day": "Fri", "session": "Rest", "type": "Rest", "nut": ["rest", null]}, {"day": "Sat", "session": "Controlled brick", "type": "Brick", "bike": "45-50 miles Z3 (85-90% effort, controlled) in race kit", "run": "Immediately off the bike: 25 min easy Z2", "nut": ["rest", null]}, {"day": "Sun", "session": "Long run", "type": "Run", "run": "60-75 min easy Z1-Z2 at goal pace feel", "nut": ["rest", null]}]}, {"week": 19, "phase": "PHASE 3: PEAK", "date": "Oct 26, 2026", "note": "Travel week (golf trip) - Saturday brick intentionally scaled down.", "volume": "Swim 3-3.5h (3x/wk) | Bike 6-8h | Run 3-4h | Lifting 1x/wk", "days": [{"day": "Mon", "session": "Swim", "type": "Swim", "swim": {"warmup": "400m easy Z1 110-137", "main": "2,000m race-distance efforts at goal pace (~1:44/100m), HR Z3 151-163", "cooldown": "200m easy Z1 110-137", "drills": ["Open water preferred - sighting every 6-8 strokes"]}, "nut": ["moderate", "chicken"]}, {"day": "Tue", "session": "Bike intervals", "type": "Bike", "bike": "Warm up 15 min Z1 110-137, 3x15 min at race effort Z3-Z4 (~22-23mph feel), 5 min Z1 110-137 recovery between", "nut": ["moderate", "beef"]}, {"day": "Wed", "session": "Swim speed + Run + Lift C", "type": "Swim + Run + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "20-30 min race-pace speed work: 6x100m @ goal pace with 15s rest, HR Z3-Z4 (151-177)", "cooldown": "200m easy Z1 110-137", "drills": ["2x50m fist drill warmup"]}, "run": "6-8 miles easy Z1-Z2", "lift": "C", "nut": ["moderate", "turkey"]}, {"day": "Thu", "session": "Swim + spin", "type": "Swim + Bike", "swim": {"warmup": "400m easy Z1 110-137", "main": "Race-distance swim (1.9km) at goal pace, HR Z3 151-163", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m catch-up drill in warmup"]}, "bike": "45 min easy spin Z1 110-137", "nut": ["moderate", "tuna"]}, {"day": "Fri", "session": "Rest", "type": "Rest", "nut": ["rest", null]}, {"day": "Sat", "session": "Travel-adjusted brick", "type": "Brick", "bike": "35-40 miles Z2-Z3 (not race effort)", "run": "15-20 min easy Z1-Z2", "nut": ["long", "salmon"]}, {"day": "Sun", "session": "Long run", "type": "Run", "run": "60-75 min easy Z1-Z2 at goal pace feel", "nut": ["moderate", "chicken"]}]}, {"week": 20, "phase": "PHASE 3: PEAK", "date": "Nov 02, 2026", "note": "FINAL full race-simulation rehearsal - full 56-60mi effort, full race kit, exact nutrition.", "volume": "Swim 3-3.5h (3x/wk) | Bike 6-8h | Run 3-4h | Lifting 1x/wk", "days": [{"day": "Mon", "session": "Swim", "type": "Swim", "swim": {"warmup": "400m easy Z1 110-137", "main": "2,000m race-distance efforts at goal pace (~1:44/100m), HR Z3 151-163", "cooldown": "200m easy Z1 110-137", "drills": ["Open water preferred - sighting every 6-8 strokes"]}, "nut": ["moderate", "chicken"]}, {"day": "Tue", "session": "Bike intervals", "type": "Bike", "bike": "Warm up 15 min Z1 110-137, 3x15 min at race effort Z3-Z4 (~22-23mph feel), 5 min Z1 110-137 recovery between", "nut": ["moderate", "beef"]}, {"day": "Wed", "session": "Swim speed + Run + Lift C", "type": "Swim + Run + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "20-30 min race-pace speed work: 6x100m @ goal pace with 15s rest, HR Z3-Z4 (151-177)", "cooldown": "200m easy Z1 110-137", "drills": ["2x50m fist drill warmup"]}, "run": "6-8 miles easy Z1-Z2", "lift": "C", "nut": ["moderate", "turkey"]}, {"day": "Thu", "session": "Swim + spin", "type": "Swim + Bike", "swim": {"warmup": "400m easy Z1 110-137", "main": "Race-distance swim (1.9km) at goal pace, HR Z3 151-163", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m catch-up drill in warmup"]}, "bike": "45 min easy spin Z1 110-137", "nut": ["moderate", "tuna"]}, {"day": "Fri", "session": "Rest", "type": "Rest", "nut": ["rest", null]}, {"day": "Sat", "session": "Race simulation brick #2 (final)", "type": "Brick", "bike": "56-60 miles at race effort Z3-Z4 (target ~23mph) in full race kit, exact race nutrition - log everything", "run": "Immediately off the bike: 30-35 min at goal pace (~8:30/mi), HR Z3 151-163", "nut": ["long", "salmon"]}, {"day": "Sun", "session": "Long run", "type": "Run", "run": "60-75 min easy Z1-Z2 at goal pace feel", "nut": ["moderate", "chicken"]}]}, {"week": 21, "phase": "PHASE 3: PEAK", "date": "Nov 09, 2026", "note": "Last hard week - controlled effort so you arrive at taper fresh.", "volume": "Swim 3-3.5h (3x/wk) | Bike 6-8h | Run 3-4h | Lifting 1x/wk", "days": [{"day": "Mon", "session": "Swim", "type": "Swim", "swim": {"warmup": "400m easy Z1 110-137", "main": "2,000m race-distance efforts at goal pace (~1:44/100m), HR Z3 151-163", "cooldown": "200m easy Z1 110-137", "drills": ["Open water preferred - sighting every 6-8 strokes"]}, "nut": ["moderate", "chicken"]}, {"day": "Tue", "session": "Bike intervals", "type": "Bike", "bike": "Warm up 15 min Z1 110-137, 3x15 min at race effort Z3-Z4 (~22-23mph feel), 5 min Z1 110-137 recovery between", "nut": ["moderate", "beef"]}, {"day": "Wed", "session": "Swim speed + Run + Lift C", "type": "Swim + Run + Lift", "swim": {"warmup": "400m easy Z1 110-137", "main": "20-30 min race-pace speed work: 6x100m @ goal pace with 15s rest, HR Z3-Z4 (151-177)", "cooldown": "200m easy Z1 110-137", "drills": ["2x50m fist drill warmup"]}, "run": "6-8 miles easy Z1-Z2", "lift": "C", "nut": ["moderate", "turkey"]}, {"day": "Thu", "session": "Swim + spin", "type": "Swim + Bike", "swim": {"warmup": "400m easy Z1 110-137", "main": "Race-distance swim (1.9km) at goal pace, HR Z3 151-163", "cooldown": "200m easy Z1 110-137", "drills": ["4x50m catch-up drill in warmup"]}, "bike": "45 min easy spin Z1 110-137", "nut": ["moderate", "tuna"]}, {"day": "Fri", "session": "Rest", "type": "Rest", "nut": ["rest", null]}, {"day": "Sat", "session": "Controlled brick", "type": "Brick", "bike": "45-50 miles Z3 (85-90% effort, controlled) in race kit", "run": "Immediately off the bike: 25 min easy Z2", "nut": ["long", "salmon"]}, {"day": "Sun", "session": "Long run", "type": "Run", "run": "60-75 min easy Z1-Z2 at goal pace feel", "nut": ["moderate", "chicken"]}]}, {"week": 22, "phase": "TAPER", "date": "Nov 16, 2026", "note": "First taper week. Volume drops. Swim drops back to 2x/week, keep a few race-pace reps.", "volume": "Swim 0.75-1.5h (2x/wk) | Bike 1.5-3h | Run 0.75-1.5h | Lifting None", "days": [{"day": "Mon", "session": "Easy swim", "type": "Swim", "swim": {"warmup": "400m easy Z1 110-137", "main": "1,000m easy, include 4x50 at goal pace to stay sharp, HR Z2 138-150", "cooldown": "200m easy Z1 110-137", "drills": ["No new drills"]}, "nut": ["rest", null]}, {"day": "Tue", "session": "Short bike", "type": "Bike", "bike": "45 min Z1-Z2 with 2x6 min at race effort Z3 151-163 to stay sharp", "nut": ["rest", null]}, {"day": "Wed", "session": "Easy run", "type": "Run", "run": "3-4 miles very easy Z1 110-137", "nut": ["rest", null]}, {"day": "Thu", "session": "Swim", "type": "Swim", "swim": {"warmup": "400m easy Z1 110-137", "main": "800m easy with a few race-pace 50s, HR Z2 138-150", "cooldown": "200m easy Z1 110-137", "drills": ["Sighting practice in open water if possible"]}, "nut": ["rest", null]}, {"day": "Fri", "session": "Rest", "type": "Rest", "nut": ["rest", null]}, {"day": "Sat", "session": "Short brick", "type": "Brick", "bike": "30 min easy Z1 110-137", "run": "10 min easy Z1 110-137", "nut": ["rest", null]}, {"day": "Sun", "session": "Rest", "type": "Rest", "nut": ["rest", null]}]}, {"week": 23, "phase": "TAPER", "date": "Nov 23, 2026", "note": "Second taper step - volume down further. Two short, easy swims.", "volume": "Swim 0.75-1.5h (2x/wk) | Bike 1.5-3h | Run 0.75-1.5h | Lifting None", "days": [{"day": "Mon", "session": "Easy swim", "type": "Swim", "swim": {"warmup": "400m easy Z1 110-137", "main": "800m easy, a few goal-pace 50s, HR Z2 138-150", "cooldown": "200m easy Z1 110-137", "drills": ["No drills needed"]}, "nut": ["rest", null]}, {"day": "Tue", "session": "Short bike (no intervals)", "type": "Bike", "bike": "35 min easy Z1 110-137 only", "nut": ["rest", null]}, {"day": "Wed", "session": "Easy run", "type": "Run", "run": "20-25 min very easy jog Z1 110-137", "nut": ["rest", null]}, {"day": "Thu", "session": "Swim", "type": "Swim", "swim": {"warmup": "400m easy Z1 110-137", "main": "600m very easy, HR Z1 110-137", "cooldown": "200m easy Z1 110-137", "drills": ["Sighting practice in open water if possible"]}, "nut": ["rest", null]}, {"day": "Fri", "session": "Rest", "type": "Rest", "nut": ["rest", null]}, {"day": "Sat", "session": "Short brick", "type": "Brick", "bike": "20 min easy Z1 110-137", "run": "8 min easy Z1 110-137", "nut": ["rest", null]}, {"day": "Sun", "session": "Rest", "type": "Rest", "nut": ["rest", null]}]}, {"week": 24, "phase": "TAPER", "date": "Nov 30, 2026", "note": "RACE WEEK. Arrive early. Check gear twice. Sleep, hydrate, eat familiar foods. Goal: sub-5:00.", "volume": "Swim 0.75-1.5h (2x/wk) | Bike 1.5-3h | Run 0.75-1.5h | Lifting None", "days": [{"day": "Mon", "session": "Easy swim", "type": "Swim", "swim": {"warmup": "400m easy Z1 110-137", "main": "600m very easy, HR Z1 110-137", "cooldown": "200m easy Z1 110-137", "drills": ["A couple of race-pace 25s"]}, "nut": ["racelight", null]}, {"day": "Tue", "session": "Easy bike", "type": "Bike", "bike": "25 min easy Z1 110-137 with 3x1 min at race effort Z3 151-163", "nut": ["racelight", null]}, {"day": "Wed", "session": "Easy run", "type": "Run", "run": "15 min easy jog Z1 110-137", "nut": ["racelight", null]}, {"day": "Thu", "session": "Travel / rest", "type": "Rest", "detail": "Get to race venue. Check in. Rack bike. Early dinner, early bed.", "nut": ["racelight", null]}, {"day": "Fri", "session": "Rest + check-in", "type": "Rest", "detail": "Athlete check-in. Walk run course. Eat familiar food. Bed by 9pm.", "nut": ["racelight", null]}, {"day": "Sat", "session": "Race eve", "type": "Rest", "detail": "Light 10 min jog Z1 110-137. Set alarms. Lay out all gear. Normal pre-race dinner. Sleep.", "nut": ["racelight", null]}, {"day": "Sun", "session": "RACE DAY - 70.3 (goal: sub-5:00)", "type": "Brick", "detail": "Wake 2.5-3 hrs before gun. Swim: settle into Z3, don't spike into Z4 early. Bike: hold Z3-Z4 (~180-190W). Run: start Z2, allow drift into Z3 late.", "nut": ["race", null]}]}];
+const RACE_DATE = dayjs("2026-12-06");
+const START_DATE = dayjs("2026-06-22");
+const TYPE_COLORS = {"Swim":"blue","Bike":"green","Run":"amber","Lift":"purple","Brick":"coral","Rest":"gray","Swim + Lift":"blue","Run + Lift":"amber","Swim + Bike":"blue","Swim + Run + Lift":"blue"};
+const ZONES = [
+  {z:"Z1", range:"110-137", label:"Recovery / easy"},
+  {z:"Z2", range:"138-150", label:"Aerobic / endurance"},
+  {z:"Z3", range:"151-163", label:"Tempo / race effort"},
+  {z:"Z4", range:"164-177", label:"Threshold"},
+  {z:"Z5", range:"178-190", label:"VO2max / anaerobic"}
+];
+const LIFTS = {
+  "A":{name:"Lift A - chest/triceps (upper-chest emphasis)", exercises:["Incline barbell press 4x8","Incline DB fly 3x12","Flat DB press 3x10","Cable crossover (low-to-high) 3x12","Overhead triceps extension 3x12","Rope pushdown 3x15"]},
+  "B":{name:"Lift B - back/biceps", exercises:["Weighted pull-ups 4x8","Chest-supported row 3x10","Lat pulldown 3x12","Single-arm DB row 3x10/side","Barbell curl 3x10","Hammer curl 3x12"]},
+  "C":{name:"Lift C - legs/core/injury-prevention", exercises:["Nordic curls 3x6","Copenhagen plank 3x20s/side","Single-leg RDL 3x10/side","Rotator cuff band series 3x15","Calf raises 3x15","Dead bug 3x12"]},
+  "BC":{name:"Lift B+C combo - lower body + core", exercises:["Trap bar deadlift 4x8","Bulgarian split squat 3x10/side","Nordic curls 3x6","Copenhagen plank 3x20s/side","Rotator cuff band series 2x15","Weighted plank 3x40s"]}
+};
+const SPLITS = [
+  {leg:"Swim (1.2mi)", target:"33:00", pace:"1:44 / 100m", note:"Biggest gap to close. Not a competitive swimmer growing up - technique work now, speed later."},
+  {leg:"T1", target:"3:00", pace:"", note:"Practiced in bricks."},
+  {leg:"Bike (56mi)", target:"2:25:00", pace:"~23.1 mph avg", note:"Your strongest leg relative to goal."},
+  {leg:"T2", target:"2:00", pace:"", note:"Practiced in bricks."},
+  {leg:"Run (13.1mi)", target:"1:52:00", pace:"8:33 / mi", note:"Off-the-bike pace, built through race-sim bricks."}
+];
+function m(meal,time,items,macro){ return {meal:meal,time:time,items:items,macro:macro}; }
+const PROTEIN_DINNER = {
+  thighs:"170g chicken thighs, boneless skinless",
+  beef:"170g lean ground beef (90/10)",
+  turkey:"170g ground turkey",
+  tuna:"283g tuna, drained (2 cans)",
+  chicken:"170g grilled chicken breast",
+  salmon:"170g salmon fillet"
+};
+function dinnerFor(protein, longDay){
+  const base = PROTEIN_DINNER[protein] || PROTEIN_DINNER.thighs;
+  const size = longDay ? base.replace("170g","227g").replace("283g tuna, drained (2 cans)","425g tuna, drained (3 cans)") : base;
+  const sides = longDay ? "300g baby potatoes, 150g green beans, 14g olive oil" : "225g baby potatoes, 100g green beans, 14g olive oil";
+  return size+", "+sides;
+}
+function nutritionModerate(protein){
+  return {total:"~3,100 cal | 210g protein | 370g carbs | 95g fat", meals:[
+    m("Breakfast","6:00am","120g rolled oats, 240g whole milk, 3 large eggs (150g), 120g banana, black coffee","750 cal | 38g P | 85g C | 26g F"),
+    m("Pre-workout","6:45am","120g banana + 1 rice cake (9g) with 21g honey","180 cal | 3g P | 42g C | 1g F"),
+    m("Post-workout shake","after session","30g whey protein, 120g frozen banana, 40g oats, water, blended","350 cal | 30g P | 50g C | 4g F"),
+    m("Lunch","12:30pm","227g chicken breast, 237g cooked white rice, 91g broccoli, 100g avocado","800 cal | 55g P | 75g C | 22g F"),
+    m("Dinner","7:00pm",dinnerFor(protein,false),"800 cal | 48g P | 55g C | 30g F"),
+    m("Before bed","9:00pm","245g Greek yogurt + 21g honey","220 cal | 20g P | 30g C | 2g F")
+  ]};
+}
+function nutritionLong(protein){
+  return {total:"~3,900 cal | 225g protein | 470g carbs | 105g fat", meals:[
+    m("Breakfast","5:30am","300g cooked white rice, 3 large eggs (150g), 115g turkey bacon (4 slices), 500ml sports drink","870 cal | 44g P | 118g C | 21g F"),
+    m("Pre-workout","6:15am","2 rice cakes (18g) with 21g honey + electrolyte drink","220 cal | 2g P | 52g C | 0g F"),
+    m("In-workout fueling","during session","Tailwind Endurance Fuel, 68-81g (2.5-3 scoops) per 20oz bottle (1-2 bottles); Maurten Gel 100 every 35 min on the run portion","~600-700 cal, mostly carbs"),
+    m("Post-workout shake","immediately after","45g whey protein, 120g frozen banana, 80g oats, 21g honey, water, blended","450 cal | 42g P | 65g C | 5g F"),
+    m("Lunch","1:30pm","283g chicken breast, 316g cooked white rice, 91g broccoli, 200g avocado","950 cal | 62g P | 90g C | 28g F"),
+    m("Dinner","7:30pm",dinnerFor(protein,true),"900 cal | 55g P | 75g C | 30g F")
+  ]};
+}
+function nutritionRest(){
+  return {total:"~2,600 cal | 190g protein | 280g carbs | 85g fat", meals:[
+    m("Breakfast","7:00am","80g rolled oats, 240g whole milk, 3 large eggs (150g), 120g banana, black coffee","650 cal | 38g P | 70g C | 22g F"),
+    m("Lunch","12:30pm","170g chicken breast, 158g cooked white rice, 91g broccoli, 100g avocado","650 cal | 48g P | 60g C | 20g F"),
+    m("Dinner","7:00pm",dinnerFor("thighs",false),"600 cal | 45g P | 55g C | 18g F"),
+    m("Before bed","9:00pm","245g Greek yogurt + 21g honey","220 cal | 20g P | 30g C | 2g F")
+  ]};
+}
+function nutritionRaceLight(){
+  return {total:"~2,900 cal | 200g protein | 340g carbs | 90g fat", meals:[
+    m("Breakfast","7:00am","80g rolled oats, 240g whole milk, 3 large eggs (150g), 120g banana, black coffee","650 cal | 38g P | 70g C | 22g F"),
+    m("Lunch","12:30pm","170g chicken thighs, 237g cooked white rice, 91g broccoli (familiar, low fiber as race nears)","700 cal | 46g P | 65g C | 20g F"),
+    m("Dinner","6:30pm","170g ground turkey, 237g white rice or baby potatoes, 128g cooked carrots","750 cal | 46g P | 75g C | 20g F"),
+    m("Before bed","8:30pm","245g Greek yogurt + 21g honey","220 cal | 20g P | 30g C | 2g F")
+  ]};
+}
+function nutritionRace(){
+  return {total:"~700-1,000 cal by wake-up, then on-course fueling", meals:[
+    m("3 hrs pre-race","3:30am","300g cooked white rice, 3 large eggs (150g), 115g turkey bacon (4 slices), 500ml sports drink - your standard brick breakfast, race-tested and familiar","870 cal | 44g P | 118g C | 21g F"),
+    m("On-course","during race","Tailwind Endurance Fuel, 68-81g per 20oz bottle (caffeinated), roughly 1 bottle/hour on the bike; Maurten Gel 100 every 35 min on the run","logged exactly as practiced in Peak sims")
+  ]};
+}
+function getNutrition(nut){
+  const type = nut[0], protein = nut[1];
+  if(type==="moderate") return nutritionModerate(protein);
+  if(type==="long") return nutritionLong(protein);
+  if(type==="rest") return nutritionRest();
+  if(type==="racelight") return nutritionRaceLight();
+  if(type==="race") return nutritionRace();
+  return nutritionRest();
+}
+
+const RACE_TIMELINE = [
+  {time:"3:00am", label:"Wake up", detail:"Bathroom, light dynamic stretching. Gun time is 6:30am."},
+  {time:"3:30am", label:"Breakfast (3 hrs pre-gun)", detail:"300g cooked white rice, 3 large eggs, 115g turkey bacon, 500ml sports drink - your standard brick breakfast, race-tested and familiar."},
+  {time:"4:00am", label:"Travel to venue", detail:"Arrive with plenty of buffer before body marking closes."},
+  {time:"4:30am", label:"Body marking + bike check-in", detail:"Rack bike, drop T1/T2 bags."},
+  {time:"5:00am", label:"Set up transition area", detail:"Shoes, helmet, on-bike nutrition (Tailwind bottles, gels) laid out."},
+  {time:"5:30am", label:"Warm-up", detail:"10 min easy jog + dynamic stretches, sip electrolyte drink."},
+  {time:"6:00am", label:"Wetsuit on", detail:"Walk to swim start."},
+  {time:"6:15am", label:"Queue at swim start", detail:"Position in your wave corral."},
+  {time:"6:30am", label:"RACE START - Swim", detail:"Target 33:00, HR Z3 (151-163). Settle in, don't spike early."},
+  {time:"7:03am", label:"T1", detail:"Target 3:00. Wetsuit off, bike gear on."},
+  {time:"7:06am", label:"Bike leg", detail:"Target 2:25:00, HR Z3-Z4 (151-177), ~23mph avg. Tailwind every 20-30 min, gel as needed."},
+  {time:"9:31am", label:"T2", detail:"Target 2:00. Bike gear off, run gear on."},
+  {time:"9:33am", label:"Run leg", detail:"Target 1:52:00 (8:33/mi). Start HR Z2 (138-150), allow drift into Z3 late. Maurten Gel 100 every 35 min."},
+  {time:"11:25am", label:"FINISH", detail:"Goal: sub-5:00 - projected 4:55:00 total."}
+];
+function renderRaceDay(){
+  let html = '<h2 style="margin-bottom:4px">Race day timeline</h2>';
+  html += '<p style="font-size:13px;color:var(--text-secondary);margin-bottom:1rem">Based on a 6:30am gun time - adjust everything by the same offset once your actual start time is confirmed.</p>';
+  html += '<div>';
+  RACE_TIMELINE.forEach(function(t,i){
+    const isFinish = t.label==='FINISH';
+    const isStart = t.label.indexOf('RACE START')!==-1;
+    html += '<div style="display:flex;gap:12px;padding:10px 0'+(i<RACE_TIMELINE.length-1?';border-bottom:0.5px solid var(--border)':'')+'">'
+      +'<div style="width:64px;flex-shrink:0;font-size:12px;font-weight:500;color:var(--text-accent);padding-top:1px">'+t.time+'</div>'
+      +'<div style="min-width:0">'
+      +'<p style="font-size:14px;font-weight:500;margin:0'+((isFinish||isStart)?';color:var(--text-danger)':'')+'">'+t.label+'</p>'
+      +'<p style="font-size:12px;color:var(--text-secondary);line-height:1.6;margin:2px 0 0">'+t.detail+'</p>'
+      +'</div></div>';
+  });
+  html += '</div>';
+  document.getElementById('body').innerHTML = html;
+}
+
+let progress = {};
+let currentWeek = Math.min(24, Math.max(10, Math.floor(dayjs().diff(START_DATE,'day')/7) + 1));
+const PHASES = [];
+WEEKS.forEach(function(w){ if(PHASES.indexOf(w.phase)===-1) PHASES.push(w.phase); });
+let currentPhase = (WEEKS.find(function(w){return w.week===currentWeek;}) || WEEKS[0]).phase;
+let expandedWeeks = {};
+expandedWeeks[currentWeek] = true;
+let expandedKeys = {};
+
+function typeColor(t){ return TYPE_COLORS[t] || "gray"; }
+function badge(type){
+  const c = typeColor(type);
+  return '<span style="background:var(--c-'+c+'-50,var(--bg-accent));color:var(--c-'+c+'-800,var(--text-accent));font-size:11px;font-weight:500;padding:2px 8px;border-radius:100px" class="c-'+c+'">'+type+'</span>';
+}
+function swimTag(){
+  return '<span style="background:var(--bg-danger);color:var(--text-danger);font-size:11px;font-weight:500;padding:2px 8px;border-radius:100px">Swim focus</span>';
+}
+function blockRow(label,text){
+  if(!text) return '';
+  return '<div style="margin-top:6px"><span style="font-size:11px;font-weight:500;color:var(--text-accent);text-transform:uppercase;letter-spacing:.02em">'+label+'</span><p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin:2px 0 0">'+text+'</p></div>';
+}
+function swimBlock(sw){
+  if(!sw) return '';
+  let html = '<div style="margin-top:6px"><span style="font-size:11px;font-weight:500;color:var(--text-accent);text-transform:uppercase;letter-spacing:.02em">Swim</span>';
+  html += '<p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin:2px 0 0"><b style="font-weight:500">Warmup:</b> '+sw.warmup+'</p>';
+  html += '<p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin:2px 0 0"><b style="font-weight:500">Main:</b> '+sw.main+'</p>';
+  html += '<p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin:2px 0 0"><b style="font-weight:500">Cooldown:</b> '+sw.cooldown+'</p>';
+  if(sw.drills && sw.drills.length){
+    html += '<p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin:2px 0 0"><b style="font-weight:500">Drills:</b> '+sw.drills.join('; ')+'</p>';
+  }
+  html += '</div>';
+  return html;
+}
+function liftBlock(key){
+  if(!key) return '';
+  const l = LIFTS[key];
+  return '<div style="margin-top:6px"><span style="font-size:11px;font-weight:500;color:var(--text-accent);text-transform:uppercase;letter-spacing:.02em">'+l.name+'</span><ul style="margin:4px 0 0;padding-left:18px">'+l.exercises.map(function(e){return '<li style="font-size:13px;color:var(--text-secondary);line-height:1.7">'+e+'</li>';}).join('')+'</ul></div>';
+}
+function nutritionBlock(nut){
+  const n = getNutrition(nut);
+  let html = '<div style="margin-top:10px;padding-top:10px;border-top:0.5px solid var(--border)">';
+  html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><i class="ti ti-apple" style="font-size:16px;color:var(--text-accent)" aria-hidden="true"></i><span style="font-size:13px;font-weight:500">'+n.total+'</span></div>';
+  n.meals.forEach(function(mm){
+    html += '<div style="display:flex;justify-content:space-between;gap:10px;padding:4px 0">'
+      +'<div style="min-width:0"><span style="font-size:12px;font-weight:500">'+mm.meal+'</span><span style="font-size:11px;color:var(--text-muted)"> &middot; '+mm.time+'</span>'
+      +'<p style="font-size:12px;color:var(--text-secondary);margin:1px 0 0">'+mm.items+'</p></div>'
+      +'<span style="font-size:11px;color:var(--text-muted);white-space:nowrap;flex-shrink:0">'+mm.macro+'</span>'
+      +'</div>';
+  });
+  html += '</div>';
+  return html;
+}
+function dayCard(w, d, expanded){
+  const key = w.week+'-'+d.day;
+  const checked = !!progress[key];
+  const isRace = d.session.indexOf('RACE DAY') !== -1;
+  const isThirdSwim = d.day==='Fri' && d.type.indexOf('Swim')!==-1 && w.phase!=='TAPER';
+  let body = '';
+  if(expanded){
+    body += swimBlock(d.swim);
+    body += blockRow('Bike', d.bike);
+    body += blockRow('Run', d.run);
+    body += liftBlock(d.lift);
+    if(d.detail) body += blockRow('Notes', d.detail);
+    body += nutritionBlock(d.nut);
+  }
+  return '<div style="padding:10px 0;border-bottom:0.5px solid var(--border)">'
+    +'<div style="display:flex;gap:10px">'
+    +'<input type="checkbox" data-key="'+key+'" class="daycheck" '+(checked?'checked':'')+' style="margin-top:3px;flex-shrink:0;cursor:pointer" />'
+    +'<div style="flex:1;min-width:0">'
+    +'<div class="daytoggle" data-key="'+key+'" style="display:flex;align-items:center;gap:8px;margin-bottom:2px;flex-wrap:wrap;cursor:pointer">'
+    +'<span style="font-size:12px;font-weight:500;color:var(--text-secondary);width:30px">'+d.day+'</span>'
+    +'<span style="font-size:14px;font-weight:500'+(checked?';text-decoration:line-through;color:var(--text-muted)':'')+(isRace?';color:var(--text-danger)':'')+'">'+d.session+'</span>'
+    + badge(d.type) + (isThirdSwim?swimTag():'')
+    +'<i class="ti ti-chevron-'+(expanded?'up':'down')+'" style="font-size:14px;color:var(--text-muted);margin-left:auto" aria-hidden="true"></i>'
+    +'</div>'
+    + body
+    +'</div></div></div>';
+}
+function weekHeader(w){
+  const swims = w.days.filter(function(d){return d.type.indexOf('Swim')!==-1;}).length;
+  return '<div style="margin-bottom:.75rem">'
+    +'<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">'
+    +'<span style="font-size:15px;font-weight:500">Week '+w.week+'</span>'
+    +'<span style="font-size:11px;color:var(--text-secondary)">'+w.date+'</span>'
+    +'<span style="font-size:11px;font-weight:500;background:var(--bg-accent);color:var(--text-accent);padding:2px 8px;border-radius:100px">'+swims+'x swim</span>'
+    +'</div>'
+    +'<p style="font-size:12px;color:var(--text-secondary);margin-top:4px">'+w.note+'</p>'
+    +'<p style="font-size:11px;color:var(--text-muted);margin-top:2px">'+w.volume+'</p>'
+    +'</div>';
+}
+function renderToday(){
+  const today = dayjs();
+  const daysToRace = RACE_DATE.diff(today,'day');
+  const w = WEEKS.find(function(ww){return ww.week===currentWeek;}) || WEEKS[0];
+  const todayIdx = today.day() === 0 ? 6 : today.day()-1;
+  const d = w.days[todayIdx];
+  let html = '<div style="margin-bottom:1.25rem"><h2 style="margin-bottom:2px">Today</h2><p style="font-size:13px;color:var(--text-secondary)">'+today.format('dddd, MMM D')+' &middot; Week '+w.week+' &middot; '+daysToRace+' days to race &middot; goal sub-5:00</p></div>';
+  if(d){
+    html += '<div style="background:var(--surface-1);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem">';
+    html += dayCard(w,d,true).replace(/^<div style="padding:10px 0;border-bottom:0\.5px solid var\(--border\)">/,'<div>').replace(/<\/div><\/div><\/div>$/,'</div></div>');
+    html += '</div>';
+  }
+  html += '<h3 style="margin-bottom:.5rem">Rest of week</h3>';
+  html += w.days.map(function(dd){return dayCard(w,dd,!!expandedKeys[w.week+'-'+dd.day]);}).join('');
+  document.getElementById('body').innerHTML = html;
+  bindChecks(); bindToggles();
+}
+function renderGoal(){
+  let html = '<h2 style="margin-bottom:4px">Sub-5:00 finish</h2>';
+  html += '<p style="font-size:13px;color:var(--text-secondary);margin-bottom:1rem">Target splits leave about 5 minutes of cushion under 5 hours.</p>';
+  html += '<div style="background:var(--surface-1);border-radius:12px;padding:0;margin-bottom:1.25rem;overflow:hidden">';
+  SPLITS.forEach(function(s, i){
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:.75rem 1.25rem'+(i<SPLITS.length-1?';border-bottom:0.5px solid var(--border)':'')+'">'
+      +'<div style="min-width:0"><p style="font-size:14px;font-weight:500;margin:0">'+s.leg+'</p><p style="font-size:12px;color:var(--text-secondary);margin:2px 0 0">'+s.note+'</p></div>'
+      +'<div style="text-align:right;flex-shrink:0"><p style="font-size:15px;font-weight:500;margin:0">'+s.target+'</p>'+(s.pace?'<p style="font-size:11px;color:var(--text-muted);margin:2px 0 0">'+s.pace+'</p>':'')+'</div></div>';
+  });
+  html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem 1.25rem;background:var(--surface-2)"><span style="font-size:14px;font-weight:500">Total</span><span style="font-size:17px;font-weight:500">4:55:00</span></div></div>';
+  html += '<div style="background:var(--bg-danger);border-radius:12px;padding:1rem 1.25rem">'
+    +'<p style="font-size:14px;font-weight:500;color:var(--text-danger);margin:0 0 4px">Why swim is the focus</p>'
+    +'<p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin:0">You weren\'t a competitive swimmer growing up, so the swim leg carries the most room to improve. The plan runs 3 swims a week through Build and Peak (2x in taper) - technique, race-pace, and a short third session layered in without disturbing bike or run volume.</p></div>';
+  document.getElementById('body').innerHTML = html;
+}
+function renderSchedule(){
+  let html = '<h2 style="margin-bottom:.75rem">Schedule</h2>';
+  html += '<div style="display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap">';
+  PHASES.forEach(function(p){
+    const active = p===currentPhase;
+    html += '<button class="phasebtn" data-phase="'+p+'" style="font-size:12px;padding:6px 12px;border-radius:100px;border:0.5px solid '+(active?'transparent':'var(--border-strong)')+';background:'+(active?'var(--bg-accent)':'transparent')+';color:'+(active?'var(--text-accent)':'var(--text-secondary)')+';font-weight:'+(active?'500':'400')+';cursor:pointer">'+p+'</button>';
+  });
+  html += '</div>';
+  const weeksInPhase = WEEKS.filter(function(w){return w.phase===currentPhase;});
+  weeksInPhase.forEach(function(w){
+    const expanded = !!expandedWeeks[w.week];
+    html += '<div style="margin-bottom:8px;border:0.5px solid var(--border);border-radius:12px;overflow:hidden">';
+    html += '<div class="weektoggle" data-week="'+w.week+'" style="padding:.75rem 1rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--surface-1)">'
+      +'<div style="min-width:0"><span style="font-size:14px;font-weight:500">Week '+w.week+'</span><span style="font-size:11px;color:var(--text-secondary)"> &middot; '+w.date+'</span>'
+      +'<p style="font-size:12px;color:var(--text-secondary);margin:2px 0 0">'+w.note+'</p></div>'
+      +'<i class="ti ti-chevron-'+(expanded?'up':'down')+'" style="font-size:16px;color:var(--text-muted);flex-shrink:0" aria-hidden="true"></i>'
+      +'</div>';
+    if(expanded){
+      html += '<div style="padding:0 1rem">';
+      html += '<p style="font-size:11px;color:var(--text-muted);padding-top:.5rem">'+w.volume+'</p>';
+      html += w.days.map(function(d){return dayCard(w,d,!!expandedKeys[w.week+'-'+d.day]);}).join('');
+      html += '</div>';
+    }
+    html += '</div>';
+  });
+  document.getElementById('body').innerHTML = html;
+  document.querySelectorAll('.phasebtn').forEach(function(btn){
+    btn.onclick = function(){ currentPhase = btn.getAttribute('data-phase'); renderSchedule(); };
+  });
+  document.querySelectorAll('.weektoggle').forEach(function(t){
+    t.onclick = function(){
+      const wk = parseInt(t.getAttribute('data-week'));
+      expandedWeeks[wk] = !expandedWeeks[wk];
+      renderSchedule();
+    };
+  });
+  bindChecks(); bindToggles();
+}
+function renderZones(){
+  let html = '<h2 style="margin-bottom:1rem">Heart rate zones</h2>';
+  html += '<div style="background:var(--surface-1);border-radius:12px;overflow:hidden">';
+  ZONES.forEach(function(z,i){
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem 1.25rem'+(i<ZONES.length-1?';border-bottom:0.5px solid var(--border)':'')+'">'
+      +'<div><span style="font-size:14px;font-weight:500">'+z.z+'</span><p style="font-size:12px;color:var(--text-secondary);margin:2px 0 0">'+z.label+'</p></div>'
+      +'<span style="font-size:15px;font-weight:500">'+z.range+' bpm</span></div>';
+  });
+  html += '</div>';
+  html += '<p style="font-size:12px;color:var(--text-muted);margin-top:1rem">From your Whoop zone breakdown. Every workout in this plan references these ranges directly.</p>';
+  document.getElementById('body').innerHTML = html;
+}
+function renderProgress(){
+  let total = 0, done = 0;
+  const byPhase = {};
+  WEEKS.forEach(function(w){
+    byPhase[w.phase] = byPhase[w.phase] || {total:0,done:0};
+    w.days.forEach(function(d){
+      total++; byPhase[w.phase].total++;
+      const key = w.week+'-'+d.day;
+      if(progress[key]){ done++; byPhase[w.phase].done++; }
+    });
+  });
+  const pct = total ? Math.round(done/total*100) : 0;
+  let html = '<h2 style="margin-bottom:1rem">Progress</h2>';
+  html += '<div style="background:var(--surface-1);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem">'
+    +'<p style="font-size:13px;color:var(--text-secondary)">Overall completion</p>'
+    +'<p style="font-size:24px;font-weight:500;margin:4px 0 8px">'+pct+'%</p>'
+    +'<div style="height:8px;background:var(--border);border-radius:100px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:var(--fill-success,var(--text-success))"></div></div>'
+    +'<p style="font-size:12px;color:var(--text-muted);margin-top:6px">'+done+' of '+total+' sessions logged</p></div>';
+  Object.keys(byPhase).forEach(function(p){
+    const b = byPhase[p];
+    const pp = b.total ? Math.round(b.done/b.total*100) : 0;
+    html += '<div style="margin-bottom:.75rem">'
+      +'<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>'+p+'</span><span style="color:var(--text-secondary)">'+b.done+'/'+b.total+'</span></div>'
+      +'<div style="height:6px;background:var(--border);border-radius:100px;overflow:hidden"><div style="height:100%;width:'+pp+'%;background:var(--fill-accent,var(--text-accent))"></div></div></div>';
+  });
+  document.getElementById('body').innerHTML = html;
+}
+function bindChecks(){
+  document.querySelectorAll('.daycheck').forEach(function(cb){
+    cb.onchange = function(){
+      progress[cb.getAttribute('data-key')] = cb.checked;
+      saveProgress();
+      const active = document.querySelector('.nav-item.active').getAttribute('data-view');
+      VIEWS[active]();
+    };
+  });
+}
+function bindToggles(){
+  document.querySelectorAll('.daytoggle').forEach(function(t){
+    t.onclick = function(){
+      const key = t.getAttribute('data-key');
+      expandedKeys[key] = !expandedKeys[key];
+      const active = document.querySelector('.nav-item.active').getAttribute('data-view');
+      VIEWS[active]();
+    };
+  });
+}
+async function saveProgress(){
+  try{ localStorage.setItem('progress_sub5_v3', JSON.stringify(progress)); }catch(e){}
+}
+async function loadProgress(){
+  try{
+    const raw = localStorage.getItem('progress_sub5_v3');
+    if(raw){ progress = JSON.parse(raw); }
+  }catch(e){}
+  render();
+}
+const VIEWS = { today: renderToday, goal: renderGoal, schedule: renderSchedule, zones: renderZones, raceday: renderRaceDay, progress: renderProgress };
+function render(){
+  const active = document.querySelector('.nav-item.active').getAttribute('data-view');
+  VIEWS[active]();
+}
+document.querySelectorAll('.nav-item').forEach(function(item){
+  item.addEventListener('click', function(){
+    document.querySelectorAll('.nav-item').forEach(function(i){ i.classList.remove('active'); i.style.background=''; i.style.color=''; i.style.fontWeight=''; });
+    item.classList.add('active');
+    item.style.background = 'var(--bg-accent)';
+    item.style.color = 'var(--text-accent)';
+    item.style.fontWeight = '500';
+    render();
+  });
+});
+document.querySelector('.nav-item[data-view="today"]').click();
+document.getElementById('countdown').textContent = RACE_DATE.diff(dayjs(),'day') + ' days to go';
+loadProgress();
+</script>
+</div>
+</body>
+</html>
